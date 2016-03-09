@@ -1,21 +1,25 @@
-#include <stdio.h>
+#include <stdio.h> 
 
-int main(int argc, char *argv[]) { 
-	int age = 19;
-	char initial = 'J'; 
-	char last_initial = 'Z'; 
-	char name[] = "Jack Zheng"; 
-	char address[] = "2040 E 28th Street"; 
-	double height = 67.75; 
-	char university[] = "Stony Brook University"; 
+int main(int argc, char *argv[]) {
+	int age[] = {19, 20, 24, 3, 5};
 
-	printf("I have a friend named %s.\n", name);
-	printf("His first initial is %c and last initial is %c.\n", initial, last_initial);
-	printf("I believe his age is %d.\n", age); 
-	printf("He lives at %s when he is not at school.\n", address);
-	printf("He goes to %s.\n", university);
-	printf("His height is %f.\n", height);
+	//	Two ways of making strings in C  
+	char name[] = "Jack Zheng";	// '\0' is implied
 
-	return 0;
+	//	'\0' is explicitly placed in this one
+	char full_name[] = {'J', 'A', 'C', 'K', ' ', 'Z', 'H', 'E', 'N', 'G', '\0'};
+
+	printf("My name is %s.\n", name);
+
+	//	Prints out '11', null byte terminating the string
+	printf("The amount of characters in name is: %ld\n", sizeof(name) / sizeof(char));
+	printf("My other name is %s.\n", full_name);
+	printf("The first element in age is %d.\n", age[0]);
+
+	//	Apparently this does not give a compilation error, 
+	//	value printed out is random each time. 
+	printf("Lets try an element not in array's range %d.\n", age[100]);
+
+	return 0; 
 
 }
