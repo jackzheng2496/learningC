@@ -8,3 +8,7 @@ This will track my progress in learning the C language.
   age[100] and there wouldn't be a compilation error. The number that is 
   outputted varies and this is definitely can be a source of upcoming bugs.  
   -3/9/16
+- Forward declarations allow use of functions before defining them. 
+  Not too sure how that works because I thought C just read instructions from 
+  top to bottom. I am assuming there exist some sort of jump command in place 
+  of those predefined functions ?? -3/10/16
