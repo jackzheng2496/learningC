@@ -1,25 +1,68 @@
 #include <stdio.h> 
+#include <ctype.h>
+#include <string.h> 
+
+void print_string(char argv[]); 
+int is_vowel(char ch);
+
+void print_args(int argc, char *argv[]) {
+	int i = 0; 
+
+	for(i = 0; i < argc; i++) {
+		print_string(argv[i]);
+	}
+}
+
+
+void print_string(char argv[]) {
+	int i = 0;
+
+	for(i = 0; i < strlen(argv); i++) {
+		char ch = argv[i];
+
+		if(ch >= 65 && ch <= 90) {
+			ch += (32 - i);
+		} else if(ch >= 97 && ch <= 122) {
+			ch -= (32 - i);
+		} else {
+			continue;
+		}
+
+		if(is_vowel(ch) == 1) {
+			printf("%c%d", ch, ch);
+		} else {
+			printf("%c%c", ch, ch);
+		}
+	}
+
+	printf("\n");
+}
+
+int is_vowel(char ch) {
+	int vowel = 1; 
+
+	switch(ch) {
+		case 'a':
+		case 'A': 
+		case 'e': 
+		case 'E': 
+		case 'i': 
+		case 'I': 
+		case 'o': 
+		case 'O': 
+		case 'u': 
+		case 'U': 
+			vowel = 1; 
+			break; 
+		default: 
+			vowel = 0;
+	}
+
+	return vowel;
+}
 
 int main(int argc, char *argv[]) {
-	int age[] = {19, 20, 24, 3, 5};
+	print_args(argc, argv);
 
-	//	Two ways of making strings in C  
-	char name[] = "Jack Zheng";	// '\0' is implied
-
-	//	'\0' is explicitly placed in this one
-	char full_name[] = {'J', 'A', 'C', 'K', ' ', 'Z', 'H', 'E', 'N', 'G', '\0'};
-
-	printf("My name is %s.\n", name);
-
-	//	Prints out '11', null byte terminating the string
-	printf("The amount of characters in name is: %ld\n", sizeof(name) / sizeof(char));
-	printf("My other name is %s.\n", full_name);
-	printf("The first element in age is %d.\n", age[0]);
-
-	//	Apparently this does not give a compilation error, 
-	//	value printed out is random each time. 
-	printf("Lets try an element not in array's range %d.\n", age[100]);
-
-	return 0; 
-
+	return 0;
 }
