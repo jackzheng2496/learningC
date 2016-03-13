@@ -19,3 +19,11 @@ This will track my progress in learning the C language.
   Pointers can be used to access the elements of an array the same way index
   works. 
   - 3/11/16
+- Struct is a block of memory that groups data variables together. There are 
+  two main methods of making structs. One is to allocate memory using malloc().
+  All the variables of said struct are referenced through pointers x->y.
+  Creating structs through malloc requires you to free up the memory used after.
+  The second method is creating structs using the stack. You create the struct
+  like how you normally create variables and the you can access the struct 
+  variables through x.y. Using this method, you do not need to worry about
+  memory leaks.
