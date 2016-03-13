@@ -31,3 +31,9 @@ This will track my progress in learning the C language.
   error about accessing memory I wasn't suppose to. I guess this is because 
   when strdup() allocated memory the string, it was specific to the string 
   that was available during creation. -3/13/16
+- extern variables can be accessed globally. If they are defined before function
+  usage, they do not need to be defined as extern in the functions. Otherwise, 
+  you are required to define them as extern variables before use, much like
+  forward declaration of functions. Using global variables may cause unwanted 
+  actions to your program so it is generally not advised to use them lightly. 
+  - 3/13/16
