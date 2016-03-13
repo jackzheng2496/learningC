@@ -26,4 +26,8 @@ This will track my progress in learning the C language.
   The second method is creating structs using the stack. You create the struct
   like how you normally create variables and the you can access the struct 
   variables through x.y. Using this method, you do not need to worry about
-  memory leaks.
+  memory leaks. -3/12/16
+- Struct practice: When I tried to change a string in a struct, it gave me an 
+  error about accessing memory I wasn't suppose to. I guess this is because 
+  when strdup() allocated memory the string, it was specific to the string 
+  that was available during creation. -3/13/16
