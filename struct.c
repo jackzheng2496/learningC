@@ -7,18 +7,21 @@
 #include <stdlib.h> 
 #include <string.h> 
 
-struct Student {
-	char *name;
+//	Practicing struct: Created a Class struct that contained a Teahcer struct. 
+//	malloc() knows how much memory to allocate for struct Teacher when I malloc'd sizeof(struct Class)
+
+
+struct Teacher {
+	char *name; 
 	char *year; 
 	int age; 
-	int height;
-	int weight; 
+	double height; 
+	double weight; 
 
 }; 
 
-//	Allocate enough memory for struct Student and return a pointer to newly created struct
-struct Student *Student_create(char *name, char *year, int age, int height, int weight) {
-	struct Student *who = malloc(sizeof(struct Student)); 
+struct Teacher *Teacher_create(char *name, char *year, int age, double height, double weight) {
+	struct Teacher *who = malloc(sizeof(struct Teacher)); 
 	assert(who != NULL); 
 
 	who->name = strdup(name); 
@@ -27,37 +30,73 @@ struct Student *Student_create(char *name, char *year, int age, int height, int 
 	who->height = height; 
 	who->weight = weight; 
 
-	return who; 
+	return who;
 }
 
-//	Free the memory used to create the struct 
-void Student_destroy(struct Student *who) {
+void Teacher_destroy(struct Teacher *who) {
 	assert(who != NULL); 
 
-	free(who->name);
+	free(who->name); 
 	free(who->year);
-	free(who);
+	free(who); 
 }
 
-void print_student(struct Student *who) {
+void Teacher_print(struct Teacher *who) {
+	assert(who != NULL); 
+
 	printf("Name: %s\n", who->name);
 	printf("\tYear: %s\n", who->year);
 	printf("\tAge: %d\n", who->age); 
-	printf("\tHeight: %d\n", who->height); 
-	printf("\tWeight: %d\n", who->weight);
+	printf("\tHeight: %2.0f\n", who->height); 
+	printf("\tWeight: %2.0f\n", who->weight); 
+}
+
+struct Class {
+	struct Teacher *this_teacher; 
+	char *class_name; 
+	int class_size; 
+
+};
+
+struct Class *Class_create(char *class_name, int class_size) {
+	struct Class *this_class = malloc(sizeof(struct Class)); 
+	assert(this_class != NULL); 
+	struct Teacher *this_teacher = Teacher_create("Generic", "Generic", 25, 170, 145); 
+
+	this_class->this_teacher = this_teacher;
+	this_class->class_name = strdup(class_name); 
+	this_class->class_size = class_size; 
+
+	return this_class;
+}
+
+void Class_destroy(struct Class *this_class) {
+	assert(this_class != NULL); 
+
+	Teacher_destroy(this_class->this_teacher); 
+	free(this_class->class_name); 
+	free(this_class); 
+}
+
+void Class_info(struct Class *this_class) {
+	assert(this_class != NULL); 
+
+	Teacher_print(this_class->this_teacher); 
+	printf("\tClass Name: %s\n", this_class->class_name); 
+	printf("\tClass Size: %d\n", this_class->class_size);
+
 }
 
 int main(int argc, char *argv[]) {
-	struct Student *jack = Student_create("Jack", "Sophomore", 19, 67, 140); 
+	struct Class *biology = Class_create("Biology", 32);
 
-	print_student(jack); 
+	Class_info(biology);
 
-	jack->age += 10; 
-	jack->weight -= 10; 
-	jack->height += 20; 
+	replace_name(biology->this_teacher, "James");
+	biology->this_teacher->age = 43; 
 
-	print_student(jack); 
-	//Student_destroy(jack); 
+	Class_info(biology);
+	Class_destroy(biology);
 
 	return 0;
 }
