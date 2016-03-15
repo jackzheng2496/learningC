@@ -37,3 +37,6 @@ This will track my progress in learning the C language.
   forward declaration of functions. Using global variables may cause unwanted 
   actions to your program so it is generally not advised to use them lightly. 
   - 3/13/16
+- Use enum to declare mutiple symbolic variables (automatically). Easier to use
+  than define and easier to debug. Applying the const keyword in front of an
+  array parameter indicates that the array will not be changed. -3/14/16
