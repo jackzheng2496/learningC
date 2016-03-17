@@ -41,3 +41,6 @@ This will track my progress in learning the C language.
   than define and easier to debug. Applying the const keyword in front of an
   array parameter indicates that the array will not be changed. -3/14/16
 - Homework is a thing, taking a small break to catch up on work. -3/17/16
+- typedef can create another name for data types/functions. Useful for functions
+  because you can kind of abstract it when you have mutiple functions with same
+  arguments. -3/17/16
