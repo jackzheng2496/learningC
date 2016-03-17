@@ -40,3 +40,4 @@ This will track my progress in learning the C language.
 - Use enum to declare mutiple symbolic variables (automatically). Easier to use
   than define and easier to debug. Applying the const keyword in front of an
   array parameter indicates that the array will not be changed. -3/14/16
+- Homework is a thing, taking a small break to catch up on work. -3/17/16
