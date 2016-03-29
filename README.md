@@ -44,3 +44,5 @@ This will track my progress in learning the C language.
 - typedef can create another name for data types/functions. Useful for functions
   because you can kind of abstract it when you have mutiple functions with same
   arguments. -3/17/16
+- Using pointers to "return" more than one value from a function is pretty 
+  useful. -3/28/16
