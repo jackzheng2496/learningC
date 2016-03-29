@@ -1,53 +1,82 @@
-#include <stdio.h> 
+#include <stdio.h>
 #include <ctype.h>
 
-#define MAX_INPUT 100
+#define MAX_INPUT 1000
 
-void expand(char s[], char t[]);
+void compute(char input[]);
+int getvalue(char *input, int *ptr);
 
 int main(int argc, char *argv[]) {
-	char s[] = "-0-9A-Da-d-kM-P-"; 
-	char t[MAX_INPUT];
+	char c; 
+	int i = 0;
+	char input[MAX_INPUT];
 
-	expand(s, t);
-	printf("%s\n", t);
+	while ((c = getchar()) != EOF) {
+		input[i++] = c;
+	}
+
+	input[i] = '\0';
+	compute(input);
 
 	return 0;
 }
 
-void expand(char s[], char t[]) {
-	char start; 
-	int i, j, dash; 
+void compute(char input[]) {
+	int i = 0;
+	int *ptr = &i;
+	int arg1, arg2;
+	arg1 = arg2 = 0;
+	char op;
 
-	dash = start = j = 0; 
+	for (i = 0; input[i] != '\0'; i++) {
+		char c = input[i]; 
 
-	for (i = 0; s[i] != '\0'; i++) {
-		char c = s[i]; 
-
-		if (isalnum(c) && start && dash) {
-			for (int k = 0; k + start <= c; k++, j++) {
-				t[j] = k + start;
-			}
-
-			start = dash = 0;
-
-			if (s[i+1] == '-') {
-				start = s[i];
-			}
-
-		} else {
-
-			if (!start && isalnum(c)) 
-				start = s[i]; 
-			
-			if (!dash && c == '-')
-				dash = 1; 
-
-			if ((dash && !start) || (dash && s[i+1] == '\0')) {
-				t[j++] = '-';
-			}
+		if (isdigit(c)) {
+			if (arg1 && !arg2)
+				arg2 = getvalue(&input[i], ptr);
+			if (!arg1) 
+				arg1 = getvalue(&input[i], ptr);
+			i = *ptr;
 		}
-	}
-	t[j] = '\0';
 
+		if (c == '+' || c == '-' || c == '*' || c == '/')
+			op = c; 
+
+		if (arg1 && arg2 && op) {
+			switch (op) {
+				case '+':
+					arg1 = arg1 + arg2; 
+					break; 
+				case '-':
+					arg1 = arg1 - arg2; 
+					break;
+				case '*':
+					arg1 = arg1 * arg2; 
+					break;
+				case '/':
+					arg1 = arg1 / arg2; 
+					break; 
+					
+			}
+
+			printf("%d\n", arg1);
+			arg1 = arg2 = 0; 
+			op = 0; 
+
+		}
+
+	}
+}
+
+int getvalue(char *input, int *index) {
+	int i = 0; 
+	int total = 0;
+
+	for (i = 0; isdigit(*(input + i)); i++) {
+		total = total * 10 + (*(input + i) - '0');
+	}
+	
+	*index = *index + i;
+
+	return total;
 }
