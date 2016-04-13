@@ -1,82 +1,135 @@
 #include <stdio.h>
-#include <ctype.h>
+#include <stdlib.h>     /* for atof() */
 
-#define MAX_INPUT 1000
+#define MAXOP   100
+#define NUMBER  '0'
 
-void compute(char input[]);
-int getvalue(char *input, int *ptr);
+int getop(char []);
+void push(double);
+double pop(void);
+double peek(void);
 
 int main(int argc, char *argv[]) {
-	char c; 
-	int i = 0;
-	char input[MAX_INPUT];
+    int type;
+    double op2;
+    char s[MAXOP];
 
-	while ((c = getchar()) != EOF) {
-		input[i++] = c;
-	}
+    while ((type = getop(s)) != EOF) {
+        switch (type) {
+            case NUMBER:
+                push(atof(s));
+                break;
+            case '+':
+                push(pop() + pop());
+                break;
+            case '*':
+                push(pop() * pop());
+                break;
+            case '/':
+                op2 = pop();
+                if (op2 != 0.0)
+                    push(pop() / op2);
+                else
+                    printf("error: zero divisor\n");
+                break;
+            case '-':
+                op2 = pop();
+                push(pop() - op2);
+                break;
+            case '%':
+            	op2 = pop();
+            	//int mod = (int) pop() % (int) op2;
+            	push((int) pop() % (int) op2);
+            	break;
+            case 'p':
+            	printf("Top of the stack is: \t%.8g\n", peek());
+                break;
+            case '\n':
+                printf("\t%.8g\n", pop());
+                break;
+            default:
+                printf("error: unknown command %s\n", s);
+                break;
+        }
+    }
 
-	input[i] = '\0';
-	compute(input);
-
-	return 0;
+    return 0;
 }
 
-void compute(char input[]) {
-	int i = 0;
-	int *ptr = &i;
-	int arg1, arg2;
-	arg1 = arg2 = 0;
-	char op;
+#define MAXVAL  100     /* depth of val stack */
 
-	for (i = 0; input[i] != '\0'; i++) {
-		char c = input[i]; 
+int sp = 0;
+double val[MAXVAL];
 
-		if (isdigit(c)) {
-			if (arg1 && !arg2)
-				arg2 = getvalue(&input[i], ptr);
-			if (!arg1) 
-				arg1 = getvalue(&input[i], ptr);
-			i = *ptr;
-		}
+void push(double f) {
+    if (sp < MAXVAL)
+        val[sp++] = f;
+    else
+        printf("error: stack full, can't push %g\n", f);
+}
 
-		if (c == '+' || c == '-' || c == '*' || c == '/')
-			op = c; 
+double pop(void) {
+    if (sp > 0)
+        return val[--sp];
+    else {
+        printf("error: stack empty\n");
+        return 0.0;
+    }
+}
 
-		if (arg1 && arg2 && op) {
-			switch (op) {
-				case '+':
-					arg1 = arg1 + arg2; 
-					break; 
-				case '-':
-					arg1 = arg1 - arg2; 
-					break;
-				case '*':
-					arg1 = arg1 * arg2; 
-					break;
-				case '/':
-					arg1 = arg1 / arg2; 
-					break; 
-					
-			}
-
-			printf("%d\n", arg1);
-			arg1 = arg2 = 0; 
-			op = 0; 
-
-		}
-
+double peek(void) {
+	if (sp >= 0)
+		return val[sp];
+	else {
+		printf("error: stack empty\n");
+		return 0.0;
 	}
 }
 
-int getvalue(char *input, int *index) {
-	int i = 0; 
-	int total = 0;
+#include <ctype.h>
 
-	for (i = 0; isdigit(*(input + i)); i++) {
-		total = total * 10 + (*(input + i) - '0');
-	}
-	
-	*index = *index + i;
+int getch(void);
+void ungetch(int);
 
-	return total;
+int getop(char s[]) {
+    int i, c;
+
+    while ((s[0] = c = getch()) == ' ' || c == '\t')
+        ;
+    s[1] = '\0';
+
+    if (!isdigit(c) && c != '.' && c != '-')
+        return c;
+
+    i = 0;
+
+    if (isdigit(c) || s[0] == '-') {
+        while (isdigit(s[++i] = c = getch()))
+            ;
+    }
+
+    s[i] = '\0';
+    if (c != EOF)
+        ungetch(c);
+
+    if (s[0] == '-' && !isdigit(s[1]))
+    	return '-';
+
+    return NUMBER;
+}
+
+#define BUFSIZE 100
+
+char buf[BUFSIZE];
+int bufp = 0;
+
+int getch(void) {
+    return (bufp > 0) ? buf[--bufp] : getchar();
+}
+
+void ungetch(int c) {
+    if (bufp >= BUFSIZE)
+        printf("ungetch: too many characters\n");
+    else
+        buf[bufp++] = c;
 }
