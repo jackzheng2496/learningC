@@ -8,3 +8,8 @@ This will track my progress in learning the C language.
 -12/22/2016 Gonna read Expert C Programming: Deep C Secrets over winter... it'll be fun..
 
 -1/11/2017 So... C, as a language, has a bunch of issues. Many of these issues stem from the fact that the language authors wanted to make it easier for C compiler writers. C can act in various ways depending on what architecture you are operating from. Despite all of this, it still remains a useful and powerful language. My best analogy would be comparing C to driving in a rural country. You can do whatever you want as long as you know what you are doing.
+  - Arrays are NOT pointers (50% of the time)
+  - Automatic type promotion in expressions and function arguments (SOMETIMES, Difference btwn K&R and ANSI)
+  - Everything is either completely global to all files or 'static' to one file, there is no in between
+  - int * const ptr and int const * ptr are not the same
+  - buffer overflows
